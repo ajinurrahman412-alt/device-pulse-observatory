@@ -37,6 +37,7 @@ import { LanguageSwitcher, UiExtrasProvider, useLang, useDanger } from "@/lib/ja
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
+  { to: "/owner", label: "Owner Console", icon: Shield },
   { to: "/agent-town", label: "Agent Town", icon: LayoutGrid },
   { to: "/chat", label: "Chat", icon: MessageSquare },
   { to: "/voice", label: "Voice", icon: Mic },
@@ -62,7 +63,7 @@ const NAV = [
 ] as const;
 
 /** Pages only the verified Owner may open; hidden from everyone else. */
-const OWNER_ONLY = new Set<string>(["/integrations", "/security", "/diagnostics", "/activity"]);
+const OWNER_ONLY = new Set<string>(["/owner", "/integrations", "/security", "/diagnostics", "/activity"]);
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
