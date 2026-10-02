@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Crown, User } from "lucide-react";
 import { ROOMS } from "@/lib/jarvis/data";
@@ -34,6 +34,63 @@ function RoomPanel({ roomId }: { roomId: RoomId }) {
           <li key={t.id} className="truncate">{t.title} — <span className="text-muted-foreground">{t.status}</span></li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function HudStats() {
+  const { agents, tasks } = useJarvis();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 1500);
+    return () => clearInterval(id);
+  }, []);
+  const load = 42 + Math.round(Math.abs(Math.sin(tick / 3)) * 40);
+  const active = agents.filter((a) => a.status !== "idle").length;
+  const stats = [
+    { label: "AGENTS ONLINE", value: `${active}/${agents.length}`, tone: "text-cyan-hud" },
+    { label: "OPEN TASKS", value: String(tasks.filter((t) => t.status !== "done").length), tone: "text-amber-hud" },
+    { label: "CORE LOAD", value: `${load}%`, tone: "text-cyan-hud", bar: load },
+    { label: "UPLINK", value: "STABLE", tone: "text-emerald-hud" },
+  ];
+  return (
+    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+      {stats.map((s) => (
+        <div key={s.label} className="hud-panel animate-fade-in border border-panel-border p-3">
+          <div className="font-mono text-[9px] tracking-[0.25em] text-muted-foreground">{s.label}</div>
+          <div className={cn("mt-1 font-display text-lg tracking-widest", s.tone)}>{s.value}</div>
+          {s.bar !== undefined && (
+            <div className="mt-2 h-1 overflow-hidden rounded bg-muted">
+              <div className="h-full bg-cyan-hud transition-all duration-700" style={{ width: `${s.bar}%` }} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RoomStrip({ selected, onSelect }: { selected: RoomId | null; onSelect: (r: RoomId) => void }) {
+  const { agents } = useJarvis();
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-1">
+      {ROOMS.map((r) => {
+        const count = agents.filter((a) => a.currentRoom === r.id).length;
+        return (
+          <button
+            key={r.id}
+            onClick={() => onSelect(r.id)}
+            className={cn(
+              "hud-panel hover-scale flex shrink-0 items-center gap-2 border px-3 py-2 font-mono text-[10px] tracking-widest",
+              ROOM_TONE_CLASSES[r.tone],
+              selected === r.id && "ring-1 ring-current",
+            )}
+          >
+            <span className={cn("size-2 rounded-full bg-current", count > 0 && "pulse")} />
+            {r.name.toUpperCase()} · {count}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -88,6 +145,9 @@ export function HomeDashboard() {
       </div>
 
       <AgentBar />
+
+      <HudStats />
+      <RoomStrip selected={room} onSelect={setRoom} />
 
       <div className="grid gap-3 xl:grid-cols-[1fr_320px]">
         <AgentTown selectedRoom={room} onSelectRoom={setRoom} />
