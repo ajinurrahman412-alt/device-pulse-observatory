@@ -6,6 +6,7 @@ import { useJarvis } from "@/lib/jarvis/store";
 import type { RoomId } from "@/lib/jarvis/types";
 import { cn } from "@/lib/utils";
 import { AgentBar } from "./AgentBar";
+import { JarvisIntro } from "./JarvisIntro";
 import { AgentTown, ROOM_TONE_CLASSES } from "./AgentTown";
 import { ActivityPanel, AgentDetailPanel } from "./Panels";
 import { AgentWorkload, BottomJarvis, CurrentTaskPanel, LiveClock, RoleCards, TaskQueue, UserPlanPanels } from "./HomeExtras";
@@ -107,6 +108,7 @@ export function HomeDashboard() {
 
   return (
     <div className="space-y-3">
+      <JarvisIntro />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-xl tracking-[0.2em] text-foreground">AJINUR2.0</h1>
