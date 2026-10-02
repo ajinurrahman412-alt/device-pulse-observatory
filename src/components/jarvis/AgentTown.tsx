@@ -87,14 +87,15 @@ export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { sho
   const { agents } = useJarvis();
 
   return (
-    <div className="hud-panel scanlines relative aspect-[4/3] w-full overflow-hidden">
+    <div className="hud-panel hud-crisp relative aspect-[4/3] w-full overflow-hidden">
       <img
         src={townImage}
         alt="Isometric six-room AJINUR2.0 agent headquarters surrounding a central AI platform"
         width={1536}
         height={1152}
         fetchPriority="high"
-        className="absolute inset-0 size-full object-fill"
+        decoding="async"
+        className="town-hd absolute inset-0 size-full object-fill"
       />
 
       {ROOMS.map((room) => {
