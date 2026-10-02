@@ -83,7 +83,6 @@ function Shell({ children }: { children: ReactNode }) {
 
   // The home screen is the pixel-matched dashboard reference and already
   // contains its own navigation, panels, footer, and window chrome.
-  if (pathname === "/") return <>{children}</>;
 
   return (
     <div className="flex min-h-screen w-full">
