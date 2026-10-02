@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { AgentBar } from "./AgentBar";
 import { AgentTown, ROOM_TONE_CLASSES } from "./AgentTown";
 import { ActivityPanel, AgentDetailPanel } from "./Panels";
+import { AgentWorkload, BottomJarvis, CurrentTaskPanel, LiveClock, RoleCards, TaskQueue, UserPlanPanels } from "./HomeExtras";
 
 type Mode = "owner" | "user";
 
@@ -172,10 +173,14 @@ export function HomeDashboard() {
         </div>
         <div className="space-y-3 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
           {room && <RoomPanel roomId={room} />}
+          <CurrentTaskPanel />
+          <TaskQueue />
           {mode === "owner" ? <AgentDetailPanel /> : null}
+          <AgentWorkload />
           <ActivityPanel limit={mode === "owner" ? 8 : 4} />
         </div>
       </div>
+      <BottomJarvis isOwner={mode === "owner"} />
     </div>
   );
 }
