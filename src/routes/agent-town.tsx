@@ -5,7 +5,7 @@ import { AgentDetailPanel, ActivityPanel, WorkloadPanel } from "@/components/jar
 import { pageHead } from "@/lib/jarvis/head";
 
 export const Route = createFileRoute("/agent-town")({
-  head: () => pageHead("Agent Town — JARVIS", "Watch every AI agent move between the four rooms in real time."),
+  head: () => pageHead("Agent Town — JARVIS", "Watch every AI agent move between the six rooms in real time."),
   component: AgentTownPage,
 });
 

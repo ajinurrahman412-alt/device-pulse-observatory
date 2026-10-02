@@ -46,7 +46,9 @@ function AgentSprite({ agent }: { agent: Agent }) {
   );
 }
 
-export function AgentTown({ showCore = true }: { showCore?: boolean }) {
+export { toneClasses as ROOM_TONE_CLASSES };
+
+export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { showCore?: boolean; selectedRoom?: Room["id"] | null; onSelectRoom?: (id: Room["id"]) => void }) {
   const { agents } = useJarvis();
 
   return (
@@ -65,16 +67,20 @@ export function AgentTown({ showCore = true }: { showCore?: boolean }) {
       {ROOMS.map((room) => {
         const position = ROOM_ANCHOR[room.id];
         return (
-          <div
+          <button
+            type="button"
             key={room.id}
+            aria-label={`Open ${room.name}`}
+            aria-pressed={selectedRoom === room.id}
+            onClick={() => onSelectRoom?.(room.id)}
             className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
             style={{ left: `${position.x}%`, top: `${position.y}%` }}
           >
-            <div className={cn("rounded border bg-background/85 px-2 py-1 text-center shadow-lg backdrop-blur-sm sm:px-3", toneClasses[room.tone])}>
+            <div className={cn("rounded border bg-background/85 px-2 py-1 text-center shadow-lg backdrop-blur-sm transition-transform hover:scale-105 sm:px-3", toneClasses[room.tone], selectedRoom === room.id && "scale-110 border-2 shadow-[0_0_18px_currentColor]")}>
               <div className="font-display text-[8px] leading-tight sm:text-[10px]">{room.name}</div>
               <div className="hidden font-mono text-[8px] text-foreground/80 sm:block">{agents.filter((agent) => agent.currentRoom === room.id).length} PRESENT</div>
             </div>
-          </div>
+          </button>
         );
       })}
 
