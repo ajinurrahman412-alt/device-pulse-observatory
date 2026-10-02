@@ -61,8 +61,6 @@ export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { sho
         fetchPriority="high"
         className="absolute inset-0 size-full object-fill"
       />
-      <div className="absolute inset-0 bg-background/15" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-transparent to-background/30" />
 
       {ROOMS.map((room) => {
         const position = ROOM_ANCHOR[room.id];
@@ -86,7 +84,7 @@ export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { sho
 
       {showCore && (
         <div className="pointer-events-none absolute left-1/2 top-[48%] z-10 -translate-x-1/2 -translate-y-1/2">
-          <div className="pointer-events-auto scale-[0.8] rounded-full bg-background/55 p-2 backdrop-blur-sm sm:scale-[0.9] xl:scale-100">
+          <div className="pointer-events-auto scale-[0.8] sm:scale-[0.9] xl:scale-100">
             <JarvisCore size="sm" />
           </div>
         </div>
