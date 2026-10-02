@@ -8,6 +8,13 @@
       "when": 1790929858807,
       "tag": "0000_baseline_user_data_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790930179469,
+      "tag": "0001_user_roles_owner",
+      "breakpoints": true
     }
   ]
 }
