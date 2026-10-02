@@ -146,12 +146,28 @@ export function HomeDashboard() {
 
       <AgentBar />
 
-      <HudStats />
-      <RoomStrip selected={room} onSelect={setRoom} />
+      <div className="2xl:hidden space-y-3">
+        <HudStats />
+        <RoomStrip selected={room} onSelect={setRoom} />
+      </div>
 
-      <div className="grid gap-3 xl:grid-cols-[1fr_320px]">
-        <AgentTown selectedRoom={room} onSelectRoom={setRoom} />
-        <div className="space-y-3">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_320px] 2xl:grid-cols-[260px_minmax(0,1fr)_340px]">
+        {/* Left cockpit column (ultrawide only) */}
+        <aside className="hidden space-y-3 2xl:block">
+          <div className="[&>div]:grid-cols-1 [&>div]:md:grid-cols-1">
+            <HudStats />
+          </div>
+          <div className="hud-panel border border-panel-border p-2">
+            <div className="mb-2 px-1 font-mono text-[9px] tracking-[0.25em] text-muted-foreground">ROOMS</div>
+            <div className="[&>div]:flex-col [&>div]:overflow-visible [&_button]:w-full">
+              <RoomStrip selected={room} onSelect={setRoom} />
+            </div>
+          </div>
+        </aside>
+        <div className="min-w-0">
+          <AgentTown selectedRoom={room} onSelectRoom={setRoom} />
+        </div>
+        <div className="space-y-3 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
           {room && <RoomPanel roomId={room} />}
           {mode === "owner" ? <AgentDetailPanel /> : null}
           <ActivityPanel limit={mode === "owner" ? 8 : 4} />
