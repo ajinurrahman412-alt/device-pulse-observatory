@@ -52,14 +52,14 @@ export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { sho
   const { agents } = useJarvis();
 
   return (
-    <div className="hud-panel scanlines relative min-h-[660px] w-full overflow-hidden sm:min-h-[720px] xl:min-h-[740px]">
+    <div className="hud-panel scanlines relative aspect-[4/3] w-full overflow-hidden">
       <img
         src={townImage}
         alt="Isometric six-room AJINUR2.0 agent headquarters surrounding a central AI platform"
         width={1536}
         height={1152}
         fetchPriority="high"
-        className="absolute inset-0 size-full object-cover object-center"
+        className="absolute inset-0 size-full object-fill"
       />
       <div className="absolute inset-0 bg-background/15" />
       <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-transparent to-background/30" />
