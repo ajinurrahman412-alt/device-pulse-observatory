@@ -76,7 +76,9 @@ function Shell({ children }: { children: ReactNode }) {
   const { t } = useLang();
   const { confirmDanger } = useDanger();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { integrations, agents, activity } = useJarvis();
+  const { integrations, agents, activity, userRole } = useJarvis();
+  const isOwner = userRole === "owner";
+  const blocked = OWNER_ONLY.has(pathname) && !isOwner;
   const [notifOpen, setNotifOpen] = useState(false);
   const openclaw = integrations.find((i) => i.id === "openclaw")?.status === "CONNECTED";
   const activeAgents = agents.filter((a) => a.status === "WORKING" || a.status === "THINKING").length;
@@ -102,7 +104,7 @@ function Shell({ children }: { children: ReactNode }) {
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-2 pb-4">
-          {NAV.map((item) => {
+          {NAV.filter((item) => isOwner || !OWNER_ONLY.has(item.to)).map((item) => {
             const active = pathname === item.to;
             return (
               <Link
@@ -258,7 +260,16 @@ function Shell({ children }: { children: ReactNode }) {
           )}
         </header>
 
-        <main className="min-w-0 flex-1 p-3">{children}</main>
+        <main className="min-w-0 flex-1 p-3">
+          {blocked ? (
+            <div className="hud-panel mx-auto mt-10 max-w-md p-6 text-center">
+              <Shield className="mx-auto size-8 text-amber-hud" />
+              <h1 className="mt-3 font-display text-lg tracking-widest text-foreground">OWNER ONLY</h1>
+              <p className="mt-2 text-sm text-muted-foreground">This area is reserved for the AJINUR2.0 Owner.</p>
+              <Link to="/" className="mt-4 inline-block rounded border border-cyan-hud/50 px-3 py-1.5 font-mono text-xs text-cyan-hud">BACK TO HOME</Link>
+            </div>
+          ) : children}
+        </main>
       </div>
       <CommandPalette />
     </div>
