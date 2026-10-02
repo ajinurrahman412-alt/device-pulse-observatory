@@ -87,6 +87,8 @@ interface JarvisContextValue {
   deleteEvent: (id: string) => void;
   logActivity: (agentId: string, action: string, status?: ActivityEntry["status"]) => void;
   userEmail: string | null;
+  /** Server-verified role of the signed-in account; null when signed out. */
+  userRole: "owner" | "admin" | "user" | null;
 }
 
 // Keep one context instance across hot reloads so provider and consumers always match.
@@ -113,6 +115,7 @@ export function JarvisProvider({ children }: { children: ReactNode }) {
   const voiceRef = useRef(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<"owner" | "admin" | "user" | null>(null);
   const uidRef = useRef<string | null>(null);
 
   const loadUserData = useCallback(async () => {
@@ -133,8 +136,11 @@ export function JarvisProvider({ children }: { children: ReactNode }) {
       setUserId(u?.id ?? null);
       setUserEmail(u?.email ?? null);
       if (!changed) return;
-      if (u) void loadUserData();
-      else { setNotes(NOTES); setMemories(MEMORIES); setEvents(EVENTS); }
+      if (u) {
+        void loadUserData();
+        void supabase.rpc("ensure_my_role").then(({ data, error }) => setUserRole(error ? "user" : (data ?? "user")));
+      } else setUserRole(null);
+      if (!u) { setNotes(NOTES); setMemories(MEMORIES); setEvents(EVENTS); }
     };
     const { data } = supabase.auth.onAuthStateChange((_ev, session) => apply(session?.user ?? null));
     supabase.auth.getSession().then(({ data: d }) => apply(d.session?.user ?? null));
@@ -462,6 +468,7 @@ export function JarvisProvider({ children }: { children: ReactNode }) {
     deleteEvent,
     logActivity,
     userEmail,
+    userRole,
   };
 
   return <JarvisContext.Provider value={value}>{children}</JarvisContext.Provider>;
