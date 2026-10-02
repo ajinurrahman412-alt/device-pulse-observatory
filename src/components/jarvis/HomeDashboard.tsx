@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Crown, User } from "lucide-react";
 import { ROOMS } from "@/lib/jarvis/data";
 import { useJarvis } from "@/lib/jarvis/store";
@@ -38,7 +39,12 @@ function RoomPanel({ roomId }: { roomId: RoomId }) {
 }
 
 export function HomeDashboard() {
-  const [mode, setMode] = useState<Mode>("owner");
+  const { userRole, userEmail } = useJarvis();
+  const isOwner = userRole === "owner";
+  const [preview, setPreview] = useState<Mode>("owner");
+  // Only the verified Owner can switch views; everyone else always sees the User view.
+  const mode: Mode = isOwner ? preview : "user";
+  const setMode = setPreview;
   const [room, setRoom] = useState<RoomId | null>("command");
 
   return (
@@ -48,6 +54,17 @@ export function HomeDashboard() {
           <h1 className="font-display text-xl tracking-[0.2em] text-foreground">AJINUR2.0</h1>
           <p className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground">YOUR PERSONAL AI ASSISTANT</p>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+        {isOwner ? (
+          <span className="flex items-center gap-1 rounded border border-amber-hud/60 bg-amber-hud/15 px-2 py-1 font-display text-[10px] tracking-widest text-amber-hud">
+            <Crown className="size-3.5" /> KING · Ajinur2.0
+          </span>
+        ) : userEmail ? (
+          <span className="rounded border border-cyan-hud/50 px-2 py-1 font-mono text-[10px] text-cyan-hud">{userRole?.toUpperCase() ?? "…"} · {userEmail}</span>
+        ) : (
+          <Link to="/auth" className="rounded border border-cyan-hud/50 px-2 py-1 font-mono text-[10px] text-cyan-hud">SIGN IN</Link>
+        )}
+        {isOwner && (
         <div role="tablist" aria-label="Dashboard view" className="flex rounded border border-panel-border bg-background/80 p-1">
           <button
             role="tab"
@@ -63,8 +80,10 @@ export function HomeDashboard() {
             onClick={() => setMode("user")}
             className={cn("flex items-center gap-1.5 rounded px-3 py-1.5 font-mono text-[11px]", mode === "user" ? "bg-cyan-hud/20 text-cyan-hud" : "text-muted-foreground")}
           >
-            <User className="size-3.5" /> USER
+            <User className="size-3.5" /> USER PREVIEW
           </button>
+        </div>
+        )}
         </div>
       </div>
 
