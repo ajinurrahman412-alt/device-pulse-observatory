@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ReferenceDashboard } from "@/components/jarvis/ReferenceDashboard";
+import { HomeDashboard } from "@/components/jarvis/HomeDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,5 +22,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return <ReferenceDashboard />;
+  return <HomeDashboard />;
 }
