@@ -28,9 +28,26 @@ function AgentSprite({ agent }: { agent: Agent }) {
       className="absolute z-20 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-1000 ease-linear"
       style={{ left: `${agent.x}%`, top: `${agent.y}%` }}
     >
-      <span className="mx-auto mb-1 block max-w-28 truncate rounded-sm border border-panel-border bg-background/90 px-2 py-0.5 font-mono text-[9px] text-foreground shadow-lg">
-        {bubble}
-      </span>
+      {task ? (
+        <span
+          className="mx-auto mb-1 block w-24 animate-fade-in rounded-md border bg-background/90 px-1.5 py-1 text-left shadow-lg sm:w-32"
+          style={{ borderColor: agent.color, boxShadow: `0 0 10px ${agent.color}` }}
+        >
+          <span className="flex items-center justify-between gap-1 font-display text-[8px] tracking-widest" style={{ color: agent.color }}>
+            <span className="truncate">{agent.name.toUpperCase()}</span>
+            <span className="shrink-0 font-mono">{Math.round(task.progress)}%</span>
+          </span>
+          <span className="block truncate font-mono text-[8px] text-foreground sm:text-[9px]">{task.title}</span>
+          <span className="mt-0.5 block h-0.5 overflow-hidden rounded bg-muted">
+            <span className="block h-full transition-all duration-700" style={{ width: `${task.progress}%`, background: agent.color }} />
+          </span>
+          <span className="mt-0.5 hidden font-mono text-[7px] text-muted-foreground sm:block">{task.status}</span>
+        </span>
+      ) : (
+        <span className="mx-auto mb-1 block max-w-28 truncate rounded-sm border border-panel-border bg-background/90 px-2 py-0.5 font-mono text-[9px] text-foreground shadow-lg">
+          {bubble}
+        </span>
+      )}
       <span
         className={cn(
           "relative mx-auto flex size-8 items-center justify-center rounded-full border bg-background/90 font-display text-[11px] transition-transform",
