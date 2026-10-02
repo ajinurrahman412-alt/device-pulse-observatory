@@ -46,12 +46,12 @@ function HudStats() {
     return () => clearInterval(id);
   }, []);
   const load = 42 + Math.round(Math.abs(Math.sin(tick / 3)) * 40);
-  const active = agents.filter((a) => a.status !== "idle").length;
+  const active = agents.filter((a) => !["IDLE","OFFLINE","RESTING"].includes(a.status)).length;
   const stats = [
     { label: "AGENTS ONLINE", value: `${active}/${agents.length}`, tone: "text-cyan-hud" },
-    { label: "OPEN TASKS", value: String(tasks.filter((t) => t.status !== "done").length), tone: "text-amber-hud" },
+    { label: "OPEN TASKS", value: String(tasks.filter((t) => ["QUEUED","RUNNING","WAITING"].includes(t.status)).length), tone: "text-amber-hud" },
     { label: "CORE LOAD", value: `${load}%`, tone: "text-cyan-hud", bar: load },
-    { label: "UPLINK", value: "STABLE", tone: "text-emerald-hud" },
+    { label: "UPLINK", value: "STABLE", tone: "text-cyan-hud" },
   ];
   return (
     <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
