@@ -144,6 +144,9 @@ export function HomeDashboard() {
         </div>
       </div>
 
+      <div className="flex justify-end"><LiveClock /></div>
+      {mode === "owner" ? <RoleCards userEmail={userEmail} /> : <UserPlanPanels />}
+
       <AgentBar />
 
       <div className="2xl:hidden space-y-3">
