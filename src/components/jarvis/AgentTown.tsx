@@ -48,15 +48,33 @@ function AgentSprite({ agent }: { agent: Agent }) {
           {bubble}
         </span>
       )}
-      <span
-        className={cn(
-          "relative mx-auto flex size-8 items-center justify-center rounded-full border bg-background/90 font-display text-[11px] transition-transform",
-          selected && "scale-110",
+      <span className={cn("relative mx-auto block w-fit", agent.status !== "OFFLINE" && "agent-bob")}>
+        {agent.status === "THINKING" && (
+          <span className="absolute -right-3 -top-2 flex gap-0.5" aria-hidden>
+            {[0, 1, 2].map((i) => (
+              <span key={i} className="agent-think size-1 rounded-full" style={{ background: agent.color, animationDelay: `${i * 0.2}s` }} />
+            ))}
+          </span>
         )}
-        style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 16px ${agent.color}` }}
-      >
-        {agent.avatar}
-        <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full" style={{ background: statusColor[agent.status] }} />
+        <span
+          className={cn(
+            "relative mx-auto flex size-8 items-center justify-center rounded-full border bg-background/90 font-display text-[11px] transition-transform",
+            selected && "scale-110",
+          )}
+          style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 16px ${agent.color}` }}
+        >
+          {agent.avatar}
+          <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full" style={{ background: statusColor[agent.status] }} />
+        </span>
+        {agent.status === "WORKING" && (
+          <span className="mx-auto mt-0.5 flex w-8 flex-col items-center" aria-hidden>
+            <span className="agent-screen h-1 w-6 rounded-sm" style={{ background: agent.color, boxShadow: `0 0 6px ${agent.color}` }} />
+            <span className="flex gap-1">
+              <span className="agent-type mt-px h-0.5 w-1.5 rounded-full bg-foreground/80" />
+              <span className="agent-type mt-px h-0.5 w-1.5 rounded-full bg-foreground/80" style={{ animationDelay: ".17s" }} />
+            </span>
+          </span>
+        )}
       </span>
       <span className="mt-0.5 block font-mono text-[8px] text-foreground drop-shadow">{agent.name}</span>
     </button>

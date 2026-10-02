@@ -281,3 +281,14 @@
 @utility animate-sweep {
   animation: sweep 2.6s ease-in-out infinite;
 }
+
+/* Agent work animations (subtle) */
+@keyframes agent-bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-1.5px) } }
+@keyframes agent-type { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+@keyframes agent-think { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
+@keyframes agent-screen { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
+.agent-bob { animation: agent-bob 3.2s ease-in-out infinite; }
+.agent-type { animation: agent-type .35s ease-in-out infinite; }
+.agent-think { animation: agent-think 1.2s ease-in-out infinite; }
+.agent-screen { animation: agent-screen 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .agent-bob,.agent-type,.agent-think,.agent-screen { animation: none; } }
