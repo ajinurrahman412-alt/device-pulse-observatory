@@ -61,6 +61,9 @@ const NAV = [
   { to: "/auth", label: "Account", icon: Bot },
 ] as const;
 
+/** Pages only the verified Owner may open; hidden from everyone else. */
+const OWNER_ONLY = new Set<string>(["/integrations", "/security", "/diagnostics", "/activity"]);
+
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <UiExtrasProvider>
