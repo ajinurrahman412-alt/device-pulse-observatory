@@ -25,6 +25,7 @@ import { Route as LandingRouteImport } from './routes/landing'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as NotesRouteImport } from './routes/notes'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -113,6 +114,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OwnerRoute = OwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/memory': typeof MemoryRoute
   '/notes': typeof NotesRoute
   '/onboarding': typeof OnboardingRoute
+  '/owner': typeof OwnerRoute
   '/profile': typeof ProfileRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/notes': typeof NotesRoute
   '/onboarding': typeof OnboardingRoute
+  '/owner': typeof OwnerRoute
   '/profile': typeof ProfileRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/memory': typeof MemoryRoute
   '/notes': typeof NotesRoute
   '/onboarding': typeof OnboardingRoute
+  '/owner': typeof OwnerRoute
   '/profile': typeof ProfileRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/notes'
     | '/onboarding'
+    | '/owner'
     | '/profile'
     | '/security'
     | '/settings'
@@ -269,6 +279,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/notes'
     | '/onboarding'
+    | '/owner'
     | '/profile'
     | '/security'
     | '/settings'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/notes'
     | '/onboarding'
+    | '/owner'
     | '/profile'
     | '/security'
     | '/settings'
@@ -320,6 +332,7 @@ export interface RootRouteChildren {
   MemoryRoute: typeof MemoryRoute
   NotesRoute: typeof NotesRoute
   OnboardingRoute: typeof OnboardingRoute
+  OwnerRoute: typeof OwnerRoute
   ProfileRoute: typeof ProfileRoute
   SecurityRoute: typeof SecurityRoute
   SettingsRoute: typeof SettingsRoute
@@ -443,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/owner': {
+      id: '/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof OwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -512,6 +532,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoryRoute: MemoryRoute,
   NotesRoute: NotesRoute,
   OnboardingRoute: OnboardingRoute,
+  OwnerRoute: OwnerRoute,
   ProfileRoute: ProfileRoute,
   SecurityRoute: SecurityRoute,
   SettingsRoute: SettingsRoute,
