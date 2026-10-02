@@ -52,7 +52,7 @@ export function JarvisCore({ size = "lg" }: { size?: "lg" | "sm" }) {
             size === "lg" ? "h-[46%] w-[46%]" : "h-[48%] w-[48%]",
             active ? "animate-core-pulse" : "animate-float-soft",
           )}
-          style={{ background: "var(--gradient-core)", boxShadow: "var(--glow-lg)" }}
+          style={{ background: "var(--gradient-core)", boxShadow: "0 0 18px oklch(0.72 0.16 245 / 55%)" }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex gap-[3px] items-end h-6">
