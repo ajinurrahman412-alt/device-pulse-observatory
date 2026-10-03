@@ -1,4 +1,4 @@
-import townImage from "@/assets/agent-town-six.jpg";
+import townImage from "@/assets/agent-town-8k.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
 import type { Agent, Room } from "@/lib/jarvis/types";
