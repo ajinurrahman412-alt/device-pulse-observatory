@@ -1,3 +1,4 @@
+import { AGENT_AVATARS } from "@/lib/jarvis/avatars";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
 import { cn } from "@/lib/utils";
 
@@ -20,10 +21,10 @@ export function AgentBar() {
             style={selected ? { borderColor: agent.color } : undefined}
           >
             <div
-              className="flex size-9 shrink-0 items-center justify-center rounded-full border font-display text-xs"
+              className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border font-display text-xs"
               style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 14px ${agent.color}` }}
             >
-              {agent.avatar}
+              {AGENT_AVATARS[agent.id] ? <img src={AGENT_AVATARS[agent.id]} alt={agent.name} loading="lazy" className="absolute inset-0 size-full rounded-full object-cover scale-150 object-[50%_35%]" /> : agent.avatar}
             </div>
             <div className="min-w-0 flex-1">
               <div className="font-display text-[11px] tracking-[0.18em] text-foreground">{agent.name}</div>
