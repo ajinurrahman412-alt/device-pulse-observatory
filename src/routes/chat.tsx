@@ -69,7 +69,7 @@ function ChatPage() {
               ["Memory Query", "What do you remember about my projects?"],
               ["OpenClaw Run", "Open my browser and check email"],
               ["Today's Schedule", "Check my calendar today"],
-            ].map(([label, prompt]) => (
+            ] as const).map(([label, prompt]) => (
               <button
                 key={label}
                 onClick={() => sendMessage(prompt)}
@@ -117,7 +117,7 @@ function ChatPage() {
               ["Memory", "SYNCED", "text-success"],
               ["Uplink", "STABLE", "text-success"],
               ["OpenClaw", "NOT CONNECTED", "text-amber-hud"],
-            ].map(([k, v, c]) => (
+            ] as const).map(([k, v, c]) => (
               <div key={k} className="rounded-md border border-panel-border/60 px-2 py-1.5">
                 <div className="font-mono text-[8px] tracking-[0.2em] text-muted-foreground">{k.toUpperCase()}</div>
                 <div className={cn("font-display text-[11px] tracking-wider", c)}>{v}</div>
