@@ -63,7 +63,7 @@ function ChatPage() {
           </div>
 
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {[
+            {([
               ["System Diagnostics", "Run full system diagnostics"],
               ["Agent Dispatch", "Dispatch an agent to research latest AI news"],
               ["Memory Query", "What do you remember about my projects?"],
@@ -112,7 +112,7 @@ function ChatPage() {
       <div className="min-h-0 space-y-3 overflow-y-auto">
         <Panel title="JARVIS 2.0 · Link Status">
           <div className="grid grid-cols-2 gap-2">
-            {[
+            {([
               ["Core Load", "34%", "text-crimson-bright"],
               ["Memory", "SYNCED", "text-success"],
               ["Uplink", "STABLE", "text-success"],
