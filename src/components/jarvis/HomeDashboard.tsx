@@ -9,6 +9,7 @@ import { AgentBar } from "./AgentBar";
 import { JarvisIntro } from "./JarvisIntro";
 import { AgentTown, ROOM_TONE_CLASSES } from "./AgentTown";
 import { ActivityPanel, AgentDetailPanel } from "./Panels";
+import { DashboardFooter, OwnerMetricRow, SystemStatusPanel, TodaySchedule, TopSystemStatus } from "./HomeSpec";
 import { AgentWorkload, BottomJarvis, CurrentTaskPanel, LiveClock, RoleCards, TaskQueue, UserPlanPanels } from "./HomeExtras";
 
 type Mode = "owner" | "user";
@@ -147,8 +148,10 @@ export function HomeDashboard() {
         </div>
       </div>
 
-      <div className="flex justify-end"><LiveClock /></div>
+      <div className="flex flex-wrap items-center justify-end gap-2"><TopSystemStatus /><LiveClock /></div>
       {mode === "owner" ? <RoleCards userEmail={userEmail} /> : <UserPlanPanels />}
+
+      {mode === "owner" && <OwnerMetricRow />}
 
       <AgentBar />
 
@@ -183,6 +186,11 @@ export function HomeDashboard() {
         </div>
       </div>
       <BottomJarvis isOwner={mode === "owner"} />
+      <div className="grid gap-3 md:grid-cols-2">
+        <TodaySchedule />
+        <SystemStatusPanel />
+      </div>
+      <DashboardFooter isOwner={mode === "owner"} />
     </div>
   );
 }
