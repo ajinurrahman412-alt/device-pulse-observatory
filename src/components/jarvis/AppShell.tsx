@@ -63,7 +63,7 @@ const NAV = [
 ] as const;
 
 /** Pages only the verified Owner may open; hidden from everyone else. */
-const OWNER_ONLY = new Set<string>(["/owner", "/integrations", "/security", "/diagnostics", "/activity"]);
+const OWNER_ONLY = new Set<string>(["/owner", "/diagnostics"]);
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
