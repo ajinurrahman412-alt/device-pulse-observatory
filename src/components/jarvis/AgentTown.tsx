@@ -64,7 +64,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
           )}
           style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 16px ${agent.color}` }}
         >
-          {AGENT_AVATARS[agent.id] ? <img src={AGENT_AVATARS[agent.id]} alt={agent.name} loading="lazy" className="absolute inset-0 size-full rounded-full object-cover scale-150 object-[50%_35%]" /> : agent.avatar}
+          {AGENT_AVATARS[agent.id] ? <img src={AGENT_AVATARS[agent.id]} alt={agent.name} loading="lazy" className="absolute inset-0 size-full rounded-full object-cover object-[50%_30%]" /> : agent.avatar}
           <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full" style={{ background: statusColor[agent.status] }} />
         </span>
         {agent.status === "WORKING" && (
