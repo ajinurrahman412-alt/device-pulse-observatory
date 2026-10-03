@@ -171,7 +171,7 @@
 
 @utility town-hd {
   image-rendering: high-quality;
-  filter: contrast(1.08) saturate(1.15) brightness(1.03);
+  filter: contrast(1.04) saturate(1.08);
 }
 
 @utility hud-title {

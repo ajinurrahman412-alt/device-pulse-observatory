@@ -7,7 +7,6 @@ import type { RoomId } from "@/lib/jarvis/types";
 import { cn } from "@/lib/utils";
 import { AgentBar } from "./AgentBar";
 import { JarvisIntro } from "./JarvisIntro";
-import { RoomInterior } from "./RoomInterior";
 import { AgentTown, ROOM_TONE_CLASSES } from "./AgentTown";
 import { ActivityPanel, AgentDetailPanel } from "./Panels";
 import { AgentWorkload, BottomJarvis, CurrentTaskPanel, LiveClock, RoleCards, TaskQueue, UserPlanPanels } from "./HomeExtras";
@@ -23,7 +22,6 @@ function RoomPanel({ roomId }: { roomId: RoomId }) {
     <div className={cn("hud-panel border p-4", ROOM_TONE_CLASSES[room.tone])}>
       <div className="font-display text-sm tracking-widest">{room.name.toUpperCase()}</div>
       <p className="mt-1 text-xs text-muted-foreground">{room.purpose}</p>
-      <RoomInterior roomId={roomId} />
       <div className="mt-3 font-mono text-[10px] text-foreground">AGENTS PRESENT · {present.length}</div>
       <ul className="mt-1 space-y-1 text-xs text-foreground">
         {present.length === 0 && <li className="text-muted-foreground">Nobody here right now.</li>}
