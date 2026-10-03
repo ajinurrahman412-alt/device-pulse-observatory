@@ -81,7 +81,7 @@ export function TodaySchedule() {
 }
 
 export function SystemStatusPanel() {
-  const [info, setInfo] = useState<{ cores?: number; mem?: number; net?: string }>({});
+  const [info, setInfo] = useState<{ cores?: number | undefined; mem?: number | undefined; net?: string | undefined }>({});
   useEffect(() => {
     const n = navigator as Navigator & { deviceMemory?: number; connection?: { effectiveType?: string } };
     setInfo({ cores: n.hardwareConcurrency, mem: n.deviceMemory, net: n.onLine ? (n.connection?.effectiveType?.toUpperCase() ?? "ONLINE") : "OFFLINE" });
