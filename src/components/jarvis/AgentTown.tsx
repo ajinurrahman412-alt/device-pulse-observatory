@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { AGENT_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { ClientOnly } from "@tanstack/react-router";
+const Human3D = lazy(() => import("./Human3D"));
 import townImage from "@/assets/agent-town-8k.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
@@ -34,8 +35,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
     const t = window.setTimeout(() => setWalking(false), 1150);
     return () => window.clearTimeout(t);
   }, [agent.x, agent.y]);
-  const walkSrc = AGENT_WALK_AVATARS[agent.id];
-  const isWalking = walking && !!walkSrc;
+  const isWalking = walking;
 
   return (
     <button
@@ -73,42 +73,15 @@ function AgentSprite({ agent }: { agent: Agent }) {
             ))}
           </span>
         )}
-        {isWalking ? (
-          <span className={cn("relative mx-auto block w-9 sm:w-12 2xl:w-14", selected && "scale-110")}>
-            <span className="agent-walk block">
-              <img
-                src={walkSrc}
-                alt={`${agent.name} walking`}
-                width={1024}
-                height={1024}
-                className="block h-auto w-full transition-transform duration-200"
-                style={{ transform: facingLeft ? "scaleX(-1)" : undefined, filter: `drop-shadow(0 0 6px ${agent.color}) drop-shadow(0 4px 4px rgb(0 0 0 / .6))` }}
-              />
-            </span>
-            <span className="agent-footstep absolute bottom-0 left-1/2 h-1.5 w-8 rounded-full border" style={{ borderColor: agent.color }} aria-hidden />
-          </span>
-        ) : AGENT_AVATARS[agent.id] ? (
-          <span className={cn("relative mx-auto block w-12 transition-transform sm:w-16 2xl:w-20", selected && "scale-110")}>
-            <img
-              src={AGENT_AVATARS[agent.id]}
-              alt={`${agent.name} seated at workstation`}
-              width={1024}
-              height={1024}
-              loading="lazy"
-              className="block h-auto w-full"
-              style={{ filter: `drop-shadow(0 0 6px ${agent.color}) drop-shadow(0 4px 4px rgb(0 0 0 / .6))` }}
-            />
-            <span className="absolute right-1 top-1 size-2 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
-          </span>
-        ) : (
-          <span
-            className={cn("relative mx-auto flex size-8 items-center justify-center rounded-full border bg-background/90 font-display text-[11px]", selected && "scale-110")}
-            style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 16px ${agent.color}` }}
-          >
-            {agent.avatar}
-            <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full" style={{ background: statusColor[agent.status] }} />
-          </span>
-        )}
+        <span className={cn("relative mx-auto block h-16 w-12 sm:h-24 sm:w-16 2xl:h-28 2xl:w-20", selected && "scale-110")}>
+          <ClientOnly fallback={null}>
+            <Suspense fallback={null}>
+              <Human3D walking={walking} facingLeft={facingLeft} color={agent.color} working={agent.status === "WORKING"} />
+            </Suspense>
+          </ClientOnly>
+          {walking && <span className="agent-footstep absolute bottom-0 left-1/2 h-1.5 w-8 rounded-full border" style={{ borderColor: agent.color }} aria-hidden />}
+          <span className="absolute right-1 top-1 size-2 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
+        </span>
         {agent.status === "WORKING" && !isWalking && (
           <span className="mx-auto mt-0.5 flex w-8 flex-col items-center" aria-hidden>
             <span className="agent-screen h-1 w-6 rounded-sm" style={{ background: agent.color, boxShadow: `0 0 6px ${agent.color}` }} />
