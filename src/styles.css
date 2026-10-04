@@ -307,3 +307,8 @@
 .agent-think { animation: agent-think 1.2s ease-in-out infinite; }
 .agent-screen { animation: agent-screen 1.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .agent-bob,.agent-type,.agent-think,.agent-screen { animation: none; } }
+@keyframes agent-walk { 0%,100% { transform: translateY(0) rotate(-1.5deg) } 25% { transform: translateY(-3px) rotate(0) } 50% { transform: translateY(0) rotate(1.5deg) } 75% { transform: translateY(-3px) rotate(0) } }
+@keyframes footstep { 0% { opacity: .8; transform: translateX(-50%) scale(.3) } 100% { opacity: 0; transform: translateX(-50%) scale(1.6) } }
+.agent-walk { animation: agent-walk .55s linear infinite; transform-origin: bottom center; }
+.agent-footstep { animation: footstep .55s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .agent-walk,.agent-footstep { animation: none; } }

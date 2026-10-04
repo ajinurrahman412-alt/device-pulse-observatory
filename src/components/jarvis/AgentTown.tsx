@@ -1,4 +1,5 @@
-import { AGENT_AVATARS } from "@/lib/jarvis/avatars";
+import { useEffect, useRef, useState } from "react";
+import { AGENT_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
 import townImage from "@/assets/agent-town-8k.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
@@ -20,6 +21,21 @@ function AgentSprite({ agent }: { agent: Agent }) {
   const task = tasks.find((item) => item.id === agent.currentTaskId);
   const bubble = task?.title ?? (agent.status === "RESTING" ? "RESTING" : "Standing by");
   const selected = selectedAgentId === agent.id;
+  const prev = useRef({ x: agent.x, y: agent.y });
+  const [walking, setWalking] = useState(false);
+  const [facingLeft, setFacingLeft] = useState(false);
+  useEffect(() => {
+    const dx = agent.x - prev.current.x;
+    const dy = agent.y - prev.current.y;
+    prev.current = { x: agent.x, y: agent.y };
+    if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) return;
+    if (Math.abs(dx) >= 0.05) setFacingLeft(dx < 0);
+    setWalking(true);
+    const t = window.setTimeout(() => setWalking(false), 1150);
+    return () => window.clearTimeout(t);
+  }, [agent.x, agent.y]);
+  const walkSrc = AGENT_WALK_AVATARS[agent.id];
+  const isWalking = walking && !!walkSrc;
 
   return (
     <button
@@ -49,7 +65,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
           {bubble}
         </span>
       )}
-      <span className={cn("relative mx-auto block w-fit", agent.status !== "OFFLINE" && "agent-bob")}>
+      <span className={cn("relative mx-auto block w-fit", agent.status !== "OFFLINE" && !isWalking && "agent-bob")}>
         {agent.status === "THINKING" && (
           <span className="absolute -right-3 -top-2 flex gap-0.5" aria-hidden>
             {[0, 1, 2].map((i) => (
@@ -57,7 +73,21 @@ function AgentSprite({ agent }: { agent: Agent }) {
             ))}
           </span>
         )}
-        {AGENT_AVATARS[agent.id] ? (
+        {isWalking ? (
+          <span className={cn("relative mx-auto block w-9 sm:w-12 2xl:w-14", selected && "scale-110")}>
+            <span className="agent-walk block">
+              <img
+                src={walkSrc}
+                alt={`${agent.name} walking`}
+                width={1024}
+                height={1024}
+                className="block h-auto w-full transition-transform duration-200"
+                style={{ transform: facingLeft ? "scaleX(-1)" : undefined, filter: `drop-shadow(0 0 6px ${agent.color}) drop-shadow(0 4px 4px rgb(0 0 0 / .6))` }}
+              />
+            </span>
+            <span className="agent-footstep absolute bottom-0 left-1/2 h-1.5 w-8 rounded-full border" style={{ borderColor: agent.color }} aria-hidden />
+          </span>
+        ) : AGENT_AVATARS[agent.id] ? (
           <span className={cn("relative mx-auto block w-12 transition-transform sm:w-16 2xl:w-20", selected && "scale-110")}>
             <img
               src={AGENT_AVATARS[agent.id]}
@@ -79,7 +109,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
             <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full" style={{ background: statusColor[agent.status] }} />
           </span>
         )}
-        {agent.status === "WORKING" && (
+        {agent.status === "WORKING" && !isWalking && (
           <span className="mx-auto mt-0.5 flex w-8 flex-col items-center" aria-hidden>
             <span className="agent-screen h-1 w-6 rounded-sm" style={{ background: agent.color, boxShadow: `0 0 6px ${agent.color}` }} />
             <span className="flex gap-1">
