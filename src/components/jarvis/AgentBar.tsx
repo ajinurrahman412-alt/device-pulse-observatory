@@ -24,7 +24,7 @@ export function AgentBar() {
               className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border font-display text-xs"
               style={{ borderColor: agent.color, color: agent.color, boxShadow: `0 0 14px ${agent.color}` }}
             >
-              {AGENT_AVATARS[agent.id] ? <img src={AGENT_AVATARS[agent.id]} alt={agent.name} loading="lazy" className="absolute inset-0 size-full rounded-full object-cover scale-150 object-[50%_35%]" /> : agent.avatar}
+              {AGENT_AVATARS[agent.id] ? <span className="absolute inset-0 overflow-hidden rounded-full"><img src={AGENT_AVATARS[agent.id]} alt={agent.name} loading="lazy" className="size-full origin-[40%_8%] scale-[2.6] object-cover" /></span> : agent.avatar}
             </div>
             <div className="min-w-0 flex-1">
               <div className="font-display text-[11px] tracking-[0.18em] text-foreground">{agent.name}</div>
