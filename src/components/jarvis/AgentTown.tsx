@@ -35,8 +35,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
     const t = window.setTimeout(() => setWalking(false), 1150);
     return () => window.clearTimeout(t);
   }, [agent.x, agent.y]);
-  const walkSrc = AGENT_WALK_AVATARS[agent.id];
-  const isWalking = walking && !!walkSrc;
+  const isWalking = walking;
 
   return (
     <button
