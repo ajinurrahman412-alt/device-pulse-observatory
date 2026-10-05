@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ClientOnly } from "@tanstack/react-router";
-const Human3D = lazy(() => import("./Human3D"));
+import { useEffect, useRef, useState } from "react";
+import { AGENT_AVATARS, AGENT_REAL_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
 import townImage from "@/assets/agent-town-8k.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
@@ -73,12 +72,21 @@ function AgentSprite({ agent }: { agent: Agent }) {
             ))}
           </span>
         )}
-        <span className={cn("relative mx-auto block h-16 w-12 sm:h-24 sm:w-16 2xl:h-28 2xl:w-20", selected && "scale-110")}>
-          <ClientOnly fallback={null}>
-            <Suspense fallback={null}>
-              <Human3D walking={walking} facingLeft={facingLeft} color={agent.color} working={agent.status === "WORKING"} />
-            </Suspense>
-          </ClientOnly>
+        <span className={cn("relative mx-auto block h-16 w-16 sm:h-24 sm:w-24 2xl:h-28 2xl:w-28", selected && "scale-110")}>
+          {(() => {
+            const src = walking ? AGENT_WALK_AVATARS[agent.id] ?? AGENT_REAL_AVATARS[agent.id] : AGENT_REAL_AVATARS[agent.id] ?? AGENT_AVATARS[agent.id];
+            return src ? (
+              <img
+                src={src}
+                alt={agent.name}
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className={cn("absolute inset-0 size-full object-contain", walking && "agent-walk")}
+                style={{ transform: walking && facingLeft ? "scaleX(-1)" : undefined, filter: `drop-shadow(0 0 6px ${agent.color}) drop-shadow(0 4px 4px rgba(0,0,0,.6))` }}
+              />
+            ) : null;
+          })()}
           {walking && <span className="agent-footstep absolute bottom-0 left-1/2 h-1.5 w-8 rounded-full border" style={{ borderColor: agent.color }} aria-hidden />}
           <span className="absolute right-1 top-1 size-2 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
         </span>

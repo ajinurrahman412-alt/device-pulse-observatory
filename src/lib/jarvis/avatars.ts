@@ -14,3 +14,11 @@ import daveWalk from "@/assets/avatars3d/walk/dave.png";
 
 /** Standing/walking 3D avatars (no chair), facing right — used while an agent moves between rooms. */
 export const AGENT_WALK_AVATARS: Record<string, string> = { alice: aliceWalk, bob: bobWalk, carol: carolWalk, dave: daveWalk };
+
+import aliceReal from "@/assets/avatars3d/real/alice.png";
+import bobReal from "@/assets/avatars3d/real/bob.png";
+import carolReal from "@/assets/avatars3d/real/carol.png";
+import daveReal from "@/assets/avatars3d/real/dave.png";
+
+/** Photorealistic humans seated at their desk, matched to the master reference. */
+export const AGENT_REAL_AVATARS: Record<string, string> = { alice: aliceReal, bob: bobReal, carol: carolReal, dave: daveReal };
