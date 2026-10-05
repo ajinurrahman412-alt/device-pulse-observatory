@@ -64,7 +64,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
           {bubble}
         </span>
       )}
-      <span className={cn("relative mx-auto block w-fit", agent.status !== "OFFLINE" && !isWalking && "agent-bob")}>
+      <span className="relative mx-auto block w-fit">
         {agent.status === "THINKING" && (
           <span className="absolute -right-3 -top-2 flex gap-0.5" aria-hidden>
             {[0, 1, 2].map((i) => (
@@ -72,23 +72,9 @@ function AgentSprite({ agent }: { agent: Agent }) {
             ))}
           </span>
         )}
-        <span className={cn("relative mx-auto block h-16 w-16 sm:h-24 sm:w-24 2xl:h-28 2xl:w-28", selected && "scale-110")}>
-          {(() => {
-            const src = walking ? AGENT_WALK_AVATARS[agent.id] ?? AGENT_REAL_AVATARS[agent.id] : AGENT_REAL_AVATARS[agent.id] ?? AGENT_AVATARS[agent.id];
-            return src ? (
-              <img
-                src={src}
-                alt={agent.name}
-                loading="lazy"
-                width={1024}
-                height={1024}
-                className={cn("absolute inset-0 size-full object-contain", walking && "agent-walk")}
-                style={{ transform: walking && facingLeft ? "scaleX(-1)" : undefined, filter: `drop-shadow(0 0 6px ${agent.color}) drop-shadow(0 4px 4px rgba(0,0,0,.6))` }}
-              />
-            ) : null;
-          })()}
-          {walking && <span className="agent-footstep absolute bottom-0 left-1/2 h-1.5 w-8 rounded-full border" style={{ borderColor: agent.color }} aria-hidden />}
-          <span className="absolute right-1 top-1 size-2 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
+        <span className={cn("relative mx-auto block size-3", selected && "scale-125")}>
+          <span className="absolute inset-0 animate-ping rounded-full opacity-60" style={{ background: statusColor[agent.status] }} />
+          <span className="absolute inset-0 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
         </span>
         {agent.status === "WORKING" && !isWalking && (
           <span className="mx-auto mt-0.5 flex w-8 flex-col items-center" aria-hidden>
