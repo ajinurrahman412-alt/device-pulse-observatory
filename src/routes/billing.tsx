@@ -16,28 +16,9 @@ const USAGE = [
 ];
 
 const PLANS = [
-  {
-    id: "free",
-    name: "Free",
-    price: "$0",
-    period: "forever",
-    features: ["1 agent", "Simulated agent town", "100 tasks / month", "Local voice only"],
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    price: "$19",
-    period: "per month",
-    features: ["5 agents", "OpenClaw desktop control", "Voice in / voice out", "Google + n8n", "Unlimited memory"],
-    popular: true,
-  },
-  {
-    id: "business",
-    name: "Business",
-    price: "$49",
-    period: "per month",
-    features: ["Unlimited agents", "Team workspaces", "Priority compute", "Audit export", "Priority support"],
-  },
+  { id: "basic", name: "Basic", price: "Setup Required", period: "1 / 6 / 12 months", features: ["JARVIS chat", "Six-room Agent Town", "Monthly credits", "Browser voice"] },
+  { id: "pro", name: "Pro", price: "Setup Required", period: "1 / 6 / 12 months", features: ["All agents (Alice, Bob, Carol, Dave, Eve)", "OpenClaw desktop control", "Voice in / voice out", "More credits"], popular: true },
+  { id: "premium", name: "Premium", price: "Setup Required", period: "1 / 6 / 12 months", features: ["Highest credits", "Priority agents", "Full integrations", "Priority support"] },
 ];
 
 const INVOICES = [
@@ -52,7 +33,7 @@ export const Route = createFileRoute("/billing")({
 });
 
 function BillingPage() {
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState("basic");
 
   return (
     <div className="mx-auto max-w-6xl space-y-3">
@@ -60,7 +41,7 @@ function BillingPage() {
         <div>
           <h1 className="font-display text-2xl tracking-[0.2em] text-crimson-bright text-glow">BILLING & USAGE</h1>
           <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-muted-foreground">
-            CURRENT PLAN · FREE · RESETS 01 OCT
+            CURRENT PLAN · BASIC · PRICES SET BY OWNER
           </p>
         </div>
         <span className="rounded-md border border-amber-hud/60 px-3 py-1.5 font-mono text-[9px] tracking-[0.15em] text-amber-hud">
