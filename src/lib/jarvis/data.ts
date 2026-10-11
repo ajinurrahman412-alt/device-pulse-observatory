@@ -160,6 +160,25 @@ export const AGENTS: Agent[] = [
     completed: 37,
     color: "oklch(0.72 0.16 300)",
   },
+  {
+    id: "eve",
+    name: "EVE",
+    avatar: "E",
+    role: "Security Agent",
+    description: "Watches sign-ins, permissions and risky actions; asks before anything dangerous.",
+    status: "WORKING",
+    currentTaskId: null,
+    currentRoom: "library",
+    targetRoom: "library",
+    x: 50,
+    y: 84,
+    workload: 35,
+    lastActive: now,
+    capabilities: ["Threat watch", "Permission checks", "Audit review", "Approvals"],
+    permissions: ["LOW", "MEDIUM", "HIGH"],
+    completed: 53,
+    color: "var(--amber-hud)",
+  },
 ];
 
 export const TASKS: Task[] = [
