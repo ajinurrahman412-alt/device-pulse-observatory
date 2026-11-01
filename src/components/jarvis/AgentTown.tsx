@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AGENT_AVATARS, AGENT_REAL_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
+import { AGENT_REAL_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
 import townImage from "@/assets/agent-town-8k.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
@@ -41,7 +41,7 @@ function AgentSprite({ agent }: { agent: Agent }) {
       type="button"
       aria-label={`${agent.name}, ${agent.status}`}
       onClick={() => setSelectedAgentId(selected ? null : agent.id)}
-      className="absolute z-20 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-1000 ease-linear"
+      className="absolute z-20 -translate-x-1/2 -translate-y-[85%] text-center transition-all duration-1000 ease-linear"
       style={{ left: `${agent.x}%`, top: `${agent.y}%` }}
     >
       {task ? (
@@ -64,28 +64,35 @@ function AgentSprite({ agent }: { agent: Agent }) {
           {bubble}
         </span>
       )}
-      <span className="relative mx-auto block w-fit">
-        {agent.status === "THINKING" && (
-          <span className="absolute -right-3 -top-2 flex gap-0.5" aria-hidden>
-            {[0, 1, 2].map((i) => (
-              <span key={i} className="agent-think size-1 rounded-full" style={{ background: agent.color, animationDelay: `${i * 0.2}s` }} />
-            ))}
-          </span>
-        )}
-        <span className={cn("relative mx-auto block size-3", selected && "scale-125")}>
+      {AGENT_REAL_AVATARS[agent.id] ? (
+        <span className={cn("relative mx-auto block h-16 w-16 sm:h-24 sm:w-24 2xl:h-28 2xl:w-28", selected && "scale-110")}>
+          {/* Floor contact shadow — keeps the person on the ground */}
+          <span aria-hidden className="absolute bottom-0 left-1/2 h-[14%] w-[80%] -translate-x-1/2 translate-y-1/3 rounded-[50%] bg-background/80 blur-[3px]" />
+          <img
+            src={isWalking && AGENT_WALK_AVATARS[agent.id] ? AGENT_WALK_AVATARS[agent.id] : AGENT_REAL_AVATARS[agent.id]}
+            alt=""
+            draggable={false}
+            className={cn("agent-breathe relative size-full object-contain object-bottom", facingLeft && isWalking && "-scale-x-100")}
+          />
+          {/* Monitor light falling on the person */}
+          {agent.status === "WORKING" && !isWalking && (
+            <span aria-hidden className="agent-glow pointer-events-none absolute inset-x-[15%] top-[20%] h-[45%] rounded-full mix-blend-screen" style={{ background: `radial-gradient(circle, ${agent.color} 0%, transparent 70%)` }} />
+          )}
+          <span className="absolute -right-1 top-1 size-2.5 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
+          {agent.status === "THINKING" && (
+            <span className="absolute -right-3 -top-1 flex gap-0.5" aria-hidden>
+              {[0, 1, 2].map((i) => (
+                <span key={i} className="agent-think size-1 rounded-full" style={{ background: agent.color, animationDelay: `${i * 0.2}s` }} />
+              ))}
+            </span>
+          )}
+        </span>
+      ) : (
+        <span className="relative mx-auto block size-3">
           <span className="absolute inset-0 animate-ping rounded-full opacity-60" style={{ background: statusColor[agent.status] }} />
           <span className="absolute inset-0 rounded-full ring-1 ring-background" style={{ background: statusColor[agent.status] }} />
         </span>
-        {agent.status === "WORKING" && !isWalking && (
-          <span className="mx-auto mt-0.5 flex w-8 flex-col items-center" aria-hidden>
-            <span className="agent-screen h-1 w-6 rounded-sm" style={{ background: agent.color, boxShadow: `0 0 6px ${agent.color}` }} />
-            <span className="flex gap-1">
-              <span className="agent-type mt-px h-0.5 w-1.5 rounded-full bg-foreground/80" />
-              <span className="agent-type mt-px h-0.5 w-1.5 rounded-full bg-foreground/80" style={{ animationDelay: ".17s" }} />
-            </span>
-          </span>
-        )}
-      </span>
+      )}
       <span className="mt-0.5 block font-mono text-[8px] text-foreground drop-shadow">{agent.name}</span>
     </button>
   );
