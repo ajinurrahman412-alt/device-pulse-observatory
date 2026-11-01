@@ -22,9 +22,9 @@ const PLANS = [
 ];
 
 const INVOICES = [
-  { id: "INV-0004", date: "01 Sep 2026", amount: "$0.00", status: "Free plan" },
-  { id: "INV-0003", date: "01 Aug 2026", amount: "$0.00", status: "Free plan" },
-  { id: "INV-0002", date: "01 Jul 2026", amount: "$0.00", status: "Free plan" },
+  { id: "INV-0004", date: "01 Sep 2026", amount: "$0.00", status: "Basic plan" },
+  { id: "INV-0003", date: "01 Aug 2026", amount: "$0.00", status: "Basic plan" },
+  { id: "INV-0002", date: "01 Jul 2026", amount: "$0.00", status: "Basic plan" },
 ];
 
 export const Route = createFileRoute("/billing")({
