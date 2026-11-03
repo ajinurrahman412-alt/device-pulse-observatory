@@ -22,3 +22,17 @@ import daveReal from "@/assets/avatars3d/real/dave.png";
 
 /** Photorealistic humans seated at their desk, matched to the master reference. */
 export const AGENT_REAL_AVATARS: Record<string, string> = { alice: aliceReal, bob: bobReal, carol: carolReal, dave: daveReal };
+
+import alicePx from "@/assets/avatars3d/pixel/alice.png";
+import bobPx from "@/assets/avatars3d/pixel/bob.png";
+import carolPx from "@/assets/avatars3d/pixel/carol.png";
+import davePx from "@/assets/avatars3d/pixel/dave.png";
+import evePx from "@/assets/avatars3d/pixel/eve.png";
+import aliceWalkPx from "@/assets/avatars3d/pixel/walk/alice.png";
+import bobWalkPx from "@/assets/avatars3d/pixel/walk/bob.png";
+import carolWalkPx from "@/assets/avatars3d/pixel/walk/carol.png";
+import daveWalkPx from "@/assets/avatars3d/pixel/walk/dave.png";
+
+/** 2D isometric pixel-art sprites: seated working + walking. */
+export const AGENT_PIXEL_AVATARS: Record<string, string> = { alice: alicePx, bob: bobPx, carol: carolPx, dave: davePx, eve: evePx };
+export const AGENT_PIXEL_WALK: Record<string, string> = { alice: aliceWalkPx, bob: bobWalkPx, carol: carolWalkPx, dave: daveWalkPx };
