@@ -319,3 +319,6 @@
 @keyframes agent-glow { 0%,100% { opacity: .18 } 40% { opacity: .32 } 55% { opacity: .22 } 80% { opacity: .36 } }
 .agent-glow { animation: agent-glow 2.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .agent-breathe, .agent-glow { animation: none; } }
+
+/* 2D pixel-art rendering: keep pixels crisp */
+.pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }

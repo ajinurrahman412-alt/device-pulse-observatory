@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { AGENT_REAL_AVATARS, AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
-import townImage from "@/assets/agent-town-8k.jpg";
+import { AGENT_PIXEL_AVATARS as AGENT_REAL_AVATARS, AGENT_PIXEL_WALK as AGENT_WALK_AVATARS } from "@/lib/jarvis/avatars";
+import townImage from "@/assets/agent-town-pixel.jpg";
 import { ROOMS, ROOM_ANCHOR } from "@/lib/jarvis/data";
 import { statusColor, useJarvis } from "@/lib/jarvis/store";
 import type { Agent, Room } from "@/lib/jarvis/types";
@@ -65,14 +65,14 @@ function AgentSprite({ agent }: { agent: Agent }) {
         </span>
       )}
       {AGENT_REAL_AVATARS[agent.id] ? (
-        <span className={cn("relative mx-auto block h-16 w-16 sm:h-24 sm:w-24 2xl:h-28 2xl:w-28", selected && "scale-110")}>
+        <span className={cn("relative mx-auto block h-12 w-12 sm:h-16 sm:w-16 2xl:h-20 2xl:w-20", selected && "scale-110")}>
           {/* Floor contact shadow — keeps the person on the ground */}
           <span aria-hidden className="absolute bottom-0 left-1/2 h-[14%] w-[80%] -translate-x-1/2 translate-y-1/3 rounded-[50%] bg-background/80 blur-[3px]" />
           <img
             src={isWalking && AGENT_WALK_AVATARS[agent.id] ? AGENT_WALK_AVATARS[agent.id] : AGENT_REAL_AVATARS[agent.id]}
             alt=""
             draggable={false}
-            className={cn("agent-breathe relative size-full object-contain object-bottom", facingLeft && isWalking && "-scale-x-100")}
+            className={cn("agent-breathe pixelated relative size-full object-contain object-bottom", facingLeft && isWalking && "-scale-x-100")}
           />
           {/* Monitor light falling on the person */}
           {agent.status === "WORKING" && !isWalking && (
@@ -112,7 +112,7 @@ export function AgentTown({ showCore = true, selectedRoom, onSelectRoom }: { sho
         height={1152}
         fetchPriority="high"
         decoding="async"
-        className="town-hd absolute inset-0 size-full object-fill"
+        className="pixelated absolute inset-0 size-full object-fill"
       />
 
       {ROOMS.map((room) => {
